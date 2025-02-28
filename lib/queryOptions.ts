@@ -1,10 +1,19 @@
 import { queryOptions } from "@tanstack/react-query";
-import { getWeatherDetails } from "./apiClient";
+import { getCurrentLocationWeatherDetails, getWeatherDetails } from "./apiClient";
+import { Location } from "@/types";
 
-export function getWeatherDetailsQueryOption() {
+export function getWeatherDetailsQueryOption(enabled:boolean) {
     return queryOptions({
         queryKey: ["weather"],
         queryFn: () => getWeatherDetails(),
-        enabled: true,
+        enabled,
+    });
+}
+
+export function getCurrentLocationWeatherDetailsQueryOption(location: Location, enabled:boolean)  {
+    return queryOptions({
+        queryKey: ["weather"],
+        queryFn: () => getCurrentLocationWeatherDetails(location),
+        enabled
     });
 }

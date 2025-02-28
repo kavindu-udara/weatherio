@@ -59,3 +59,8 @@ export interface Response {
     city: City;
     list: List[];
 }
+
+export interface Location {
+    latitude: number;
+    longitude: number;
+}
