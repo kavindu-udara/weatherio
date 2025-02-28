@@ -7,7 +7,7 @@ const API_KEY = process.env.NEXT_PUBLIC_OPEN_WEATHER_API_KEY;
 
 export const getWeatherDetails = async (): Promise<Response> => {
     const response = await axios.get(
-        `http://api.openweathermap.org/data/2.5/forecast?lat=44.34&lon=10.99&appid=${API_KEY}`
+        `https://api.openweathermap.org/data/2.5/forecast?lat=44.34&lon=10.99&appid=${API_KEY}`
     );
     return response.data;
 
