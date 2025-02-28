@@ -25,7 +25,6 @@ const NowCard = ({ city, list }: { city: City; list: List }) => {
             <sup>o</sup>c
           </div>
           <div className="flex justify-center">
-            {/* <IoCloudyNight /> */}
             <WeatherIcon iconCode={list.weather[0].icon} />
           </div>
         </div>
