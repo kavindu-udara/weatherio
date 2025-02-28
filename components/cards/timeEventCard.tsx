@@ -6,20 +6,24 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { TbMoonFilled } from "react-icons/tb";
+import { List } from "@/types";
+import WeatherIcon from "../icons/weatherIcon";
+import { convertTo12HourFormat } from "@/lib/date";
 
-const TimeEventCard = () => {
+const TimeEventCard = ({ list }: { list: List }) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-center">9 AM</CardTitle>
+        <CardTitle className="text-center">
+          {convertTo12HourFormat(list.dt_txt)}
+        </CardTitle>
       </CardHeader>
       <CardContent className="text-6xl flex justify-center">
-        <TbMoonFilled />
+        <WeatherIcon iconCode={list.weather[0].icon} />
       </CardContent>
       <CardFooter className=" flex justify-center text-lg">
         <div>
-          1 <sup>o</sup>
+          {Math.round(list.main.temp - 273.15)} <sup>o</sup>
         </div>
       </CardFooter>
     </Card>
