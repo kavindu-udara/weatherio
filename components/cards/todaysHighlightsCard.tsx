@@ -15,18 +15,18 @@ import { LuMoon } from "react-icons/lu";
 
 const TodaysHighlightsCard = ({ city, list }: { city: City; list: List }) => {
   return (
-    <Card className="p-5">
+    <Card className="md:p-5">
       <CardHeader className="text-2xl">
         <CardTitle>Todays Highlights</CardTitle>
       </CardHeader>
-      <CardContent className="grid grid-cols-2 gap-5">
-        <div className="grid grid-rows-2 gap-5">
+      <CardContent className="grid md:grid-cols-2 gap-5">
+        <div className="grid md:grid-rows-2 gap-5">
           <div className="flex flex-col gap-5 border p-5 rounded-lg">
             <div className="flex justify-between">
               <p>Air quality index</p>
               <Button>Good</Button>
             </div>
-            <div className="grid grid-cols-5 gap-3 text-6xl">
+            <div className="grid md:grid-cols-5 gap-3 text-6xl">
               <div className="flex items-center justify-center">
                 <FaWind />
               </div>
@@ -36,7 +36,7 @@ const TodaysHighlightsCard = ({ city, list }: { city: City; list: List }) => {
               <IndexCard title="price" number={3.9} />
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-5">
+          <div className="grid md:grid-cols-2 gap-5">
             <LevelCard
               title="Humidity"
               icon={<WiHumidity />}
@@ -50,12 +50,12 @@ const TodaysHighlightsCard = ({ city, list }: { city: City; list: List }) => {
           </div>
         </div>
 
-        <div className="grid grid-rows-2 gap-5">
+        <div className="grid md:grid-rows-2 gap-5">
           <div className="flex flex-col gap-5 border p-5 rounded-lg">
             <div className="flex ">
               <p>sunrice & sunset</p>
             </div>
-            <div className="grid grid-cols-2 gap-3 ">
+            <div className="grid md:grid-cols-2 gap-3 ">
               <div className="border rounded gap-5 grid grid-cols-3  p-5">
                 <div className="text-6xl">
                   <FiSun />
@@ -82,7 +82,7 @@ const TodaysHighlightsCard = ({ city, list }: { city: City; list: List }) => {
               </div>
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-5">
+          <div className="grid md:grid-cols-2 gap-5">
             <LevelCard
               title="Visibility"
               icon={<IoEyeOutline />}
@@ -92,6 +92,7 @@ const TodaysHighlightsCard = ({ city, list }: { city: City; list: List }) => {
               title="Feels like"
               icon={<FaTemperatureHalf />}
               precent={`${Math.round(list.main.feels_like - 273.15)}`}
+              isCelcius
             />
           </div>
         </div>

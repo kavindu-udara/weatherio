@@ -13,7 +13,7 @@ const FiveDayForecastCard = ({ lists }: { lists: List[] }) => {
 
   return (
     <div className="flex flex-col gap-5">
-      <div className="text-xl">5 day forecast</div>
+      <div className="text-xl md:text-start text-center">5 day forecast</div>
       <Card className="p-5">
         <CardContent className="flex flex-col gap-5 overflow-y-scroll">
           {filteredList.map((list) => (

@@ -33,14 +33,16 @@ export default function Home() {
       )}
 
       {data && selectedList && (
-        <div className="grid grid-cols-4 gap-5 p-5 h-fit">
-          <div className="flex flex-col gap-5">
-            <NowCard city={data.city} list={selectedList} />
-            <FiveDayForecastCard lists={data.list} />
-          </div>
-          <div className="col-span-3 flex flex-col gap-3">
-            <TodaysHighlightsCard city={data.city} list={selectedList} />
-            <TodayAtCard lists={data.list} />
+        <div className="flex flex-col justify-center w-full p-5 md:m-0">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-5 md:p-5 md:h-fit ">
+            <div className="flex flex-col justify-center gap-5">
+              <NowCard city={data.city} list={selectedList} />
+              <FiveDayForecastCard lists={data.list} />
+            </div>
+            <div className="md:col-span-3 flex flex-col gap-3">
+              <TodaysHighlightsCard city={data.city} list={selectedList} />
+              <TodayAtCard lists={data.list} />
+            </div>
           </div>
         </div>
       )}

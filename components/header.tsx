@@ -6,14 +6,14 @@ import { Input } from "@/components/ui/input"
 
 const Header = () => {
   return (
-    <header className='grid grid-cols-4 px-10 py-3 border-b'>
-        <div className='text-5xl'>
+    <header className='grid gap-5 md:gap-0 md:grid-cols-4 px-10 py-3 border-b'>
+        <div className='text-5xl flex justify-center'>
             <FaCloudSun className='cursor-pointer' />
         </div>
-        <div className='col-span-2'>
+        <div className='md:col-span-2'>
             <Input/>
         </div>
-        <div className='text-end'>
+        <div className='text-center md:text-end'>
             <Button> <FaLocationCrosshairs/> Current Location</Button>
         </div>
     </header>
