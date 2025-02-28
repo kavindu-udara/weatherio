@@ -3,16 +3,49 @@ import FiveDayForecastCard from "@/components/cards/fiveDayForecastCard";
 import NowCard from "@/components/cards/nowCard";
 import TodayAtCard from "@/components/cards/todayAtCard";
 import TodaysHighlightsCard from "@/components/cards/todaysHighlightsCard";
-import { getWeatherDetailsQueryOption } from "@/lib/queryOptions";
-import { List } from "@/types";
+import {
+  getCurrentLocationWeatherDetailsQueryOption,
+  getWeatherDetailsQueryOption,
+} from "@/lib/queryOptions";
+import { List, Location } from "@/types";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 
-export default function Home() {
-  const { data, isPending, error } = useQuery(getWeatherDetailsQueryOption());
-
+const Home: React.FC = () => {
+  const [location, setLocation] = useState<Location>();
   const [selectedList, setSelectedList] = useState<List>();
+
+  const weatherQuery = useQuery(
+    location
+      ? getCurrentLocationWeatherDetailsQueryOption(location, !!location)
+      : getWeatherDetailsQueryOption(!location)
+  );
+
+  const { data, isPending, error } = weatherQuery;
+
+  const refetch = () => {
+    if (location) {
+      weatherQuery.refetch();
+    }
+  };
+
+  const getLocation = () => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setLocation({ latitude, longitude });
+          refetch();
+        },
+        (error) => {
+          console.error("Error retrieving location:", error);
+        }
+      );
+    } else {
+      console.error("Geolocation is not supported by this browser.");
+    }
+  }
 
   if (error) {
     toast("Event has been created.");
@@ -23,6 +56,14 @@ export default function Home() {
       setSelectedList(chooseListByTime(data.list));
     }
   }, [data, selectedList]);
+
+  useEffect(() => {
+    refetch();
+  }, [location]);
+
+  useEffect(() => {
+    getLocation();
+  }, []);
 
   return (
     <>
@@ -48,7 +89,7 @@ export default function Home() {
       )}
     </>
   );
-}
+};
 
 const chooseListByTime = (lists: List[]) => {
   if (lists.length === 0) return undefined;
@@ -72,3 +113,5 @@ const chooseListByTime = (lists: List[]) => {
   // If current time is later than all forecast start times, return the last forecast
   return lists[lists.length - 1];
 };
+
+export default Home;

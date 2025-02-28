@@ -1,4 +1,4 @@
-import { Response } from "@/types";
+import { Location, Response } from "@/types";
 import axios from "axios";
 
 // import res from "@/samples/res.json";
@@ -22,3 +22,10 @@ export const getWeatherDetails = async (): Promise<Response> => {
 
     // return transformedRes;
 };
+
+export const getCurrentLocationWeatherDetails = async (location: Location): Promise<Response> => {
+    const response = await axios.get(
+        `https://api.openweathermap.org/data/2.5/forecast?lat=${location.latitude}&lon=${location.longitude}&appid=${API_KEY}`
+    );
+    return response.data;
+}
