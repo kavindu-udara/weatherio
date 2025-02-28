@@ -28,6 +28,23 @@ const Home: React.FC = () => {
     if (location) {
       weatherQuery.refetch();
     }
+  };
+
+  const getLocation = () => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setLocation({ latitude, longitude });
+          refetch();
+        },
+        (error) => {
+          console.error("Error retrieving location:", error);
+        }
+      );
+    } else {
+      console.error("Geolocation is not supported by this browser.");
+    }
   }
 
   if (error) {
@@ -45,20 +62,7 @@ const Home: React.FC = () => {
   }, [location]);
 
   useEffect(() => {
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          setLocation({ latitude, longitude });
-          refetch();
-        },
-        (error) => {
-          console.error("Error retrieving location:", error);
-        }
-      );
-    } else {
-      console.error("Geolocation is not supported by this browser.");
-    }
+    getLocation();
   }, []);
 
   return (

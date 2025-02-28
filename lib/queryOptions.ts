@@ -12,7 +12,7 @@ export function getWeatherDetailsQueryOption(enabled:boolean) {
 
 export function getCurrentLocationWeatherDetailsQueryOption(location: Location, enabled:boolean)  {
     return queryOptions({
-        queryKey: ["weather"],
+        queryKey: ["weather", location],
         queryFn: () => getCurrentLocationWeatherDetails(location),
         enabled
     });
