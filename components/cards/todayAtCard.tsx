@@ -17,8 +17,8 @@ const TodayAtCard = ({lists} : {lists: List[]}) => {
 
   return (
     <div className="flex flex-col gap-3">
-      <div className="text-xl">Today at</div>
-      <div className="grid grid-cols-8 gap-5 text-lg">
+      <div className="text-xl md:text-start text-center">Today at</div>
+      <div className="grid md:grid-cols-8 gap-5 text-lg">
         { filteredList &&
           filteredList.map(list => (
             <TimeEventCard list={list} key={list.dt} />

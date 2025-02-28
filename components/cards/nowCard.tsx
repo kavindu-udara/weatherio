@@ -14,7 +14,7 @@ import WeatherIcon from "../icons/weatherIcon";
 
 const NowCard = ({ city, list }: { city: City; list: List }) => {
   return (
-    <Card className="p-5">
+    <Card className="md:p-5">
       <CardHeader className="text-2xl">
         <CardTitle>Now</CardTitle>
       </CardHeader>
