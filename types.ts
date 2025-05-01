@@ -41,9 +41,9 @@ export interface List {
         deg: number;
         gust: number
     };
-    visibility: number;
+    visibility?: number;
     pop: number;
-    rain: {
+    rain?: {
         '3h': number;
     };
     sys: {
@@ -53,7 +53,7 @@ export interface List {
 }
 
 export interface Response {
-    code: string;
+    cod: string;
     message: number;
     cnt: number;
     city: City;

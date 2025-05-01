@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input"
 
 const Header = () => {
   return (
-    <header className='grid gap-5 md:gap-0 md:grid-cols-4 px-10 py-3 border-b'>
+    <header className='grid gap-5 md:gap-0 md:grid-cols-4 px-10 py-3 blur-bg'>
         <div className='text-5xl flex justify-center'>
             <FaCloudSun className='cursor-pointer' />
         </div>

@@ -15,7 +15,7 @@ import { LuMoon } from "react-icons/lu";
 
 const TodaysHighlightsCard = ({ city, list }: { city: City; list: List }) => {
   return (
-    <Card className="md:p-5">
+    <Card className="md:p-5 blur-bg">
       <CardHeader className="text-2xl">
         <CardTitle>Todays Highlights</CardTitle>
       </CardHeader>
@@ -86,7 +86,7 @@ const TodaysHighlightsCard = ({ city, list }: { city: City; list: List }) => {
             <LevelCard
               title="Visibility"
               icon={<IoEyeOutline />}
-              precent={`${Math.round(list.visibility / 1000)}km`}
+              precent={`${list.visibility && Math.round(list.visibility / 1000)}km`}
             />
             <LevelCard
               title="Feels like"

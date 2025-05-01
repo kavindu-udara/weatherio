@@ -1,36 +1,22 @@
-import {
-    FaSun,
-    FaMoon,
-    FaCloudSun,
-    FaCloudMoon,
-    FaCloud,
-    FaCloudShowersHeavy,
-    FaCloudRain,
-    FaBolt,
-    FaSnowflake,
-    FaSmog,
-    FaCloudSunRain
-} from 'react-icons/fa';
-
-const weatherIconMapping: Record<string, React.ComponentType> = {
-    '01d': FaSun,             // clear sky (day)
-    '01n': FaMoon,            // clear sky (night)
-    '02d': FaCloudSun,        // few clouds (day)
-    '02n': FaCloudMoon,       // few clouds (night)
-    '03d': FaCloud,           // scattered clouds
-    '03n': FaCloud,
-    '04d': FaCloud,           // broken clouds
-    '04n': FaCloud,
-    '09d': FaCloudShowersHeavy, // shower rain
-    '09n': FaCloudShowersHeavy,
-    '10d': FaCloudRain,       // rain
-    '10n': FaCloudSunRain, // edited
-    '11d': FaBolt,            // thunderstorm
-    '11n': FaBolt,
-    '13d': FaSnowflake,       // snow
-    '13n': FaSnowflake,
-    '50d': FaSmog,            // mist
-    '50n': FaSmog,
+const weatherIconMapping: Record<string, string> = {
+    '01d': 'clear-day.svg',
+    '01n': 'clear-night.svg',
+    '02d': 'cloudy-1-day.svg',
+    '02n': 'cloudy-1-night.svg',
+    '03d': 'cloudy-2-day.svg',
+    '03n': 'cloudy-2-night.svg',
+    '04d': 'cloudy-3-day.svg',
+    '04n': 'cloudy-3-night.svg',
+    '09d': 'rainy-2-day.svg',
+    '09n': 'rainy-2-night.svg',
+    '10d': 'rainy-1-day.svg',
+    '10n': 'rainy-1-night.svg',
+    '11d': 'isolated-thunderstorms-day.svg',
+    '11n': 'isolated-thunderstorms-night.svg',
+    '13d': 'snowy-2-day.svg',
+    '13n': 'snowy-2-night.svg',
+    '50d': 'fog-day.svg',
+    '50n': 'fog-night.svg',
 };
 
 export default weatherIconMapping;
