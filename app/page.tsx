@@ -21,7 +21,7 @@ const Page = () => {
 
   useEffect(() => {
     if (location) {
-      axios.get(`https://api.openweathermap.org/data/2.5/forecast?lat=${location.latitude}&lon=${location.longitude}&appid=d52bc29838fe9de48a040590f6a9e90c`).then((response) => {
+      axios.get(`https://api.openweathermap.org/data/2.5/forecast?lat=${location.latitude}&lon=${location.longitude}&appid=${process.env.NEXT_PUBLIC_OPEN_WEATHER_API_KEY}`).then((response) => {
         setResponse(response.data);
         console.log("Weather data:", response.data);
       }).catch((error) => {
