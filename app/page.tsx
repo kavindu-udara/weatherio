@@ -1,6 +1,8 @@
 "use client"
 import DetailsSection from '@/components/sections/DetailsSection'
 import SlideSection from '@/components/sections/SlideSection'
+import { backgroundImageMapping } from '@/lib/backgroundImageMapping'
+import { chooseListByTime } from '@/lib/filters'
 import { Location, Response } from '@/types'
 import { getLocation } from '@/utils/locationHandler'
 import axios from 'axios'
@@ -30,8 +32,16 @@ const Page = () => {
     }
   }, [location]);
 
+  const pageStyle = {
+
+    backgroundImage: `url("/images/backgrounds/${response ? backgroundImageMapping[chooseListByTime(response?.list).weather[0].icon] : "/images/background.jpg"} ")`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+  }
+
   return response ? (
-    <div className="w-full min-h-screen flex justify-center items-center">
+    <div className="w-full min-h-screen flex justify-center items-center" style={pageStyle}>
       <div className='flex flex-row m-10 rounded-2xl min-h-[800px] container'>
         <SlideSection response={response} />
         <DetailsSection response={response} />

@@ -1,8 +1,6 @@
-import { convertTo12HourFormat, getCurrentDateTime } from '@/lib/date';
+import { getCurrentDateTime } from '@/lib/date';
 import { chooseListByTime, filterListsByDate } from '@/lib/filters';
-import { convertToCelsius } from '@/lib/temp';
 import { formatUnixTimeToAMPM } from '@/lib/time';
-import weatherIconMapping from '@/lib/weatherIconMapping';
 import { List as WeatherList, Response } from '@/types';
 import React, { useEffect } from 'react';
 import { FaCircleUp, FaCircleDown } from "react-icons/fa6";
@@ -11,6 +9,7 @@ import { WiCloudyGusts } from "react-icons/wi";
 import { FaCampground } from "react-icons/fa";
 import { GiAtSea } from "react-icons/gi";
 import Image from 'next/image';
+import TimeListCard from '../cards/TimeListCard';
 
 const DetailsSection = ({ response }: { response: Response }) => {
 
@@ -40,11 +39,7 @@ const DetailsSection = ({ response }: { response: Response }) => {
             <div className='flex flex-wrap gap-5 overflow-x-scroll w-full' style={{ scrollbarWidth: "thin", scrollbarColor: "gray transparent" }}>
 
                 {filteredList && filteredList.length > 0 && filteredList.map((list, index) => (
-                    <div key={index} className={`flex flex-col gap-2 p-5 rounded-2xl font-semibold items-center ${themeColor}`}>
-                        <span>{convertTo12HourFormat(list.dt_txt)}</span>
-                        <Image src={"/images/weather-icons/animated/" + weatherIconMapping[list.weather[0].icon]} width={100} height={100} alt="weather-img" />
-                        <span>{convertToCelsius(list.main.temp)}°C</span>
-                    </div>
+                    <TimeListCard list={list} themeColor={themeColor} key={index} />
                 ))}
 
             </div>
@@ -59,7 +54,6 @@ const DetailsSection = ({ response }: { response: Response }) => {
                     <span className='text-4xl font-semibold'>
                         {chooseListByTime(response.list).main.pressure}hPa
                     </span>
-
                     <div className='flex justify-between items-center text-2xl w-full px-7 text-gray-700 gap-3'>
                         <div className='font-semibold flex items-center gap-5'>
                             <FaCampground className='text-emerald-700'/>
