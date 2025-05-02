@@ -31,7 +31,7 @@ const CurrentTimeWeatherSection = ({ list, time }: Props) => {
             <div className='flex gap-3 text-xl'>
                 {time.toLocaleDateString('en-US', { weekday: 'long' })}, {time.getDate()} {time.toLocaleDateString('en-US', { month: 'long' })} {time.getFullYear()}, {time.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
             </div>
-            <hr />
+            <hr className='border-gray-600' />
             <ul className='text-lg'>
                 <li>{list.weather[0].main} : <span className='text-gray-600'>{list.weather[0].description}</span></li>
             </ul>
