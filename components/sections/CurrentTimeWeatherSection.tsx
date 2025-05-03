@@ -13,7 +13,7 @@ const CurrentTimeWeatherSection = ({ list, time }: Props) => {
     return (
         <div className='flex justify-center flex-col gap-5 h-full'>
             <div className='flex justify-center items-center'>
-                <Image src={`./images/weather-icons/animated//${weatherIconMapping[list.weather[0].icon]}`} alt="img" width={400} height={400}/>
+                <Image src={`./images/weather-icons/animated//${weatherIconMapping[list.weather[0].icon]}`} alt="img" width={400} height={400} />
             </div>
             <div className='text-6xl text-center font-semibold'>
                 {convertToCelsius(list.main.temp)}°C
