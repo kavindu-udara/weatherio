@@ -48,7 +48,7 @@ const Page = () => {
       </div>
     </div>
   ) : (
-    <div className="h-screen text-white flex flex-col justify-center items-center">
+    <div className="h-screen text-gray-700 flex flex-col justify-center items-center">
       <p className="p-5 rounded-2xl text-lg">Loading...</p>
       <p >Please allow location permissions</p>
     </div>
