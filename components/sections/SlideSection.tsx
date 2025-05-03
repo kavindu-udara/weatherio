@@ -13,7 +13,11 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import Map from '../Map';
+// import Map from '../Map';
+import dynamic from 'next/dynamic';
+
+// Dynamically import the Map component with SSR disabled
+const Map = dynamic(() => import('../Map'), { ssr: false });
 
 const SlideSection = ({ response }: { response: Response }) => {
 
