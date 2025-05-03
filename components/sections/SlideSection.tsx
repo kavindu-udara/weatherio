@@ -1,11 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { IoSearch } from "react-icons/io5";
 import { FaLocationCrosshairs } from "react-icons/fa6";
-import { List, Response } from '@/types';
+import { City, List, Response } from '@/types';
 import CurrentTimeWeatherSection from './CurrentTimeWeatherSection';
 import { chooseListByTime } from '@/lib/filters';
 
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
+// import Map from '../Map';
+import dynamic from 'next/dynamic';
+
+// Dynamically import the Map component with SSR disabled
+const Map = dynamic(() => import('../Map'), { ssr: false });
+
 const SlideSection = ({ response }: { response: Response }) => {
+
+    const dialogTriggerRef = React.useRef<HTMLButtonElement>(null);
 
     const [themeColor, setThemeColor] = React.useState<string>("bg-white text-black");
 
@@ -54,10 +70,32 @@ const SlideSection = ({ response }: { response: Response }) => {
             {/* current time */}
             <CurrentTimeWeatherSection list={listByTime} time={currentTime} />
 
-            <div className='rounded-2xl w-full h-[200px] flex items-center justify-center' style={locationDivStyle}>
+            <div className='rounded-2xl w-full h-[200px] flex items-center justify-center cursor-pointer' onClick={() => dialogTriggerRef?.current?.click()} style={locationDivStyle}>
                 <h1 className='text-center text-white text-xl font-semibold'> {response.city.name}, {response.city.country}</h1>
             </div>
+
+            <LocationDialog city={response.city} dialogTriggerRef={dialogTriggerRef as React.RefObject<HTMLButtonElement>} themeColor={themeColor} />
+
         </div>
+    )
+}
+
+const LocationDialog = ({ city, dialogTriggerRef, themeColor }: { city: City, dialogTriggerRef: React.RefObject<HTMLButtonElement>, themeColor: string }) => {
+    return (
+        <Dialog>
+            <DialogTrigger ref={dialogTriggerRef} className='hidden'>Open</DialogTrigger>
+            <DialogContent className={`border-none ${themeColor}`}>
+                <DialogHeader>
+                    <DialogTitle className='text-center'>{city.name} {city.country}</DialogTitle>
+                    <DialogDescription>
+                    </DialogDescription>
+                </DialogHeader>
+                <div>
+                    <Map lat={city.coord.lat} lon={city.coord.lon} />
+                </div>
+
+            </DialogContent>
+        </Dialog>
     )
 }
 
