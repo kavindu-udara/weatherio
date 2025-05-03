@@ -13,6 +13,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
+import Map from '../Map';
 
 const SlideSection = ({ response }: { response: Response }) => {
 
@@ -69,25 +70,24 @@ const SlideSection = ({ response }: { response: Response }) => {
                 <h1 className='text-center text-white text-xl font-semibold'> {response.city.name}, {response.city.country}</h1>
             </div>
 
-            <LocationDialog city={response.city} dialogTriggerRef={dialogTriggerRef as React.RefObject<HTMLButtonElement>} />
+            <LocationDialog city={response.city} dialogTriggerRef={dialogTriggerRef as React.RefObject<HTMLButtonElement>} themeColor={themeColor} />
 
         </div>
     )
 }
 
-const LocationDialog = ({ city, dialogTriggerRef }: { city: City, dialogTriggerRef: React.RefObject<HTMLButtonElement> }) => {
+const LocationDialog = ({ city, dialogTriggerRef, themeColor }: { city: City, dialogTriggerRef: React.RefObject<HTMLButtonElement>, themeColor: string }) => {
     return (
         <Dialog>
             <DialogTrigger ref={dialogTriggerRef} className='hidden'>Open</DialogTrigger>
-            <DialogContent>
+            <DialogContent className={`border-none ${themeColor}`}>
                 <DialogHeader>
                     <DialogTitle className='text-center'>{city.name} {city.country}</DialogTitle>
                     <DialogDescription>
                     </DialogDescription>
                 </DialogHeader>
-
-                {/* // TODO: create a map to show location */}
                 <div>
+                    <Map lat={city.coord.lat} lon={city.coord.lon} />
                 </div>
 
             </DialogContent>
