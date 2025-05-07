@@ -49,7 +49,7 @@ const DetailsSection = ({ response }: { response: Response }) => {
     }
 
     return (
-        <div className='basis-2/3 blur-bg rounded-tr-2xl rounded-br-2xl p-5 flex flex-col gap-5'>
+        <div className='basis-2/3 blur-bg md:rounded-tr-2xl md:rounded-br-2xl p-5 flex flex-col gap-5'>
 
             <div className='flex justify-between'>
                 <div className='flex flex-wrap gap-5 text-2xl font-semibold'>
@@ -68,7 +68,7 @@ const DetailsSection = ({ response }: { response: Response }) => {
 
             <h1 className='text-xl'>Today&apos;s Highlights</h1>
 
-            <div className='grid grid-cols-3 gap-5 min-h-[400px] text-lg'>
+            <div className='grid grid-cols-1 md:grid-cols-3 gap-5 min-h-[400px] text-lg'>
 
                 {/* pressure */}
                 <div className={`rounded-2xl flex flex-col gap-5 items-center justify-center min-h-[240px] ${themeColor}`}>

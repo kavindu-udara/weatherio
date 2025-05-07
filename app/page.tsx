@@ -33,7 +33,6 @@ const Page = () => {
   }, [location]);
 
   const pageStyle = {
-
     backgroundImage: `url("/images/backgrounds/${response ? backgroundImageMapping[chooseListByTime(response?.list).weather[0].icon] : "/images/background.jpg"} ")`,
     backgroundSize: "cover",
     backgroundPosition: "center",
@@ -42,7 +41,7 @@ const Page = () => {
 
   return response ? (
     <div className="w-full min-h-screen flex justify-center items-center" style={pageStyle}>
-      <div className='flex flex-row m-10 rounded-2xl min-h-[800px] container'>
+      <div className='flex flex-col md:flex-row md:m-10 md:rounded-2xl min-h-[800px] container'>
         <SlideSection response={response} />
         <DetailsSection response={response} />
       </div>

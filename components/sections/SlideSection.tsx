@@ -52,10 +52,10 @@ const SlideSection = ({ response }: { response: Response }) => {
     }
 
     return (
-        <div className={`${themeColor} basis-1/3 rounded-tl-2xl rounded-bl-2xl p-5 flex flex-col justify-stretch`}>
+        <div className={`${themeColor} basis-1/3 md:rounded-tl-2xl md:rounded-bl-2xl p-5 flex flex-col justify-stretch`}>
 
             {/* search bar */}
-            <div className='flex items-center gap-5 justify-between text-lg'>
+            <div className='flex items-center md:gap-5 justify-between text-lg'>
                 <div className={`flex items-center gap-3 rounded-2xl px-5 py-2 ${themeColor}`}>
                     <IoSearch />
                     <input type="text" placeholder='Search for places...' className='bg-transparent outline-none' />
