@@ -51,13 +51,6 @@ const DetailsSection = ({ response }: { response: Response }) => {
     return (
         <div className='basis-2/3 blur-bg md:rounded-tr-2xl md:rounded-br-2xl p-5 flex flex-col gap-5'>
 
-            <div className='flex justify-between'>
-                <div className='flex flex-wrap gap-5 text-2xl font-semibold'>
-                    <a href="#" className='pb-2 border-black border-b'>Today</a>
-                    <a href="#" className='text-gray-600'>Week</a>
-                </div>
-            </div>
-
             <div className='flex flex-wrap gap-5 overflow-x-scroll w-full' style={{ scrollbarWidth: "thin", scrollbarColor: "gray transparent" }}>
 
                 {filteredList && filteredList.length > 0 && filteredList.map((list, index) => (
