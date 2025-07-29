@@ -1,24 +1,28 @@
 "use client"
-import DetailsSection from '@/components/sections/DetailsSection'
-import SlideSection from '@/components/sections/SlideSection'
-import { backgroundImageMapping } from '@/lib/backgroundImageMapping'
-import { chooseListByTime } from '@/lib/filters'
-import { Location, Response } from '@/types'
-import { getLocation } from '@/utils/locationHandler'
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import DetailsSection from '@/components/sections/DetailsSection';
+import SlideSection from '@/components/sections/SlideSection';
+import { backgroundImageMapping } from '@/lib/backgroundImageMapping';
+import { chooseListByTime } from '@/lib/filters';
+import { RootState } from '@/store';
+import { setLocation } from '@/store/locationSlice';
+import {Response } from '@/types';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-const Page = () => {
+export default function Home() {
 
-  const [location, setLocation] = useState<Location | null>(null);
   const [response, setResponse] = useState<Response | null>(null);
 
+  const { location } = useSelector((state: RootState) => state.location);
+
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    getLocation().then((location) => {
-      setLocation(location);
-    }).catch((error) => {
-      console.error("Error retrieving location:", error);
-    });
+    dispatch(setLocation({
+      latitude: 40.730610,
+      longitude: -73.935242
+    }));
   }, []);
 
   useEffect(() => {
@@ -32,10 +36,6 @@ const Page = () => {
     }
   }, [location]);
 
-  const changeLocation = (location : Location) => {
-    setLocation(location);
-  }
-
   const pageStyle = {
     backgroundImage: `url("/images/backgrounds/${response ? backgroundImageMapping[chooseListByTime(response?.list).weather[0].icon] : "/images/background.jpg"} ")`,
     backgroundSize: "cover",
@@ -46,7 +46,7 @@ const Page = () => {
   return response ? (
     <div className="w-full min-h-screen flex justify-center items-center" style={pageStyle}>
       <div className='flex flex-col md:flex-row md:m-10 md:rounded-2xl min-h-[800px] container'>
-        <SlideSection response={response} changeLocation={changeLocation} />
+        <SlideSection response={response}/>
         <DetailsSection response={response} />
       </div>
     </div>
@@ -57,5 +57,3 @@ const Page = () => {
     </div>
   )
 }
-
-export default Page

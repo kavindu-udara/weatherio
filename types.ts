@@ -64,3 +64,11 @@ export interface Location {
     latitude: number;
     longitude: number;
 }
+
+export type FavoType = {
+    _id: string,
+    userId: string,
+    name: string,
+    latitude: number,
+    longitude: number
+}

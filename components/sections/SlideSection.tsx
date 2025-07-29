@@ -4,7 +4,6 @@ import { FaLocationCrosshairs } from "react-icons/fa6";
 import { City, List, Location, Response } from '@/types';
 import CurrentTimeWeatherSection from './CurrentTimeWeatherSection';
 import { chooseListByTime } from '@/lib/filters';
-
 import {
     Dialog,
     DialogContent,
@@ -18,30 +17,39 @@ import { LocationDetail } from '@/types/location.type';
 import axios from 'axios';
 import { ImSpinner6 } from "react-icons/im";
 import { getLocation } from '@/utils/locationHandler';
+import { useDispatch, useSelector } from 'react-redux';
+import { setLocation } from '@/store/locationSlice';
+import { setDarkTheme, setLighTheme } from '@/store/themeSlice';
+import { RootState } from '@/store';
 
 const Map = dynamic(() => import('../Map'), { ssr: false });
 
-const SlideSection = ({ response, changeLocation }: { response: Response, changeLocation: (location: Location) => void }) => {
+const SlideSection = ({ response }: { response: Response }) => {
 
     const dialogTriggerRef = useRef<HTMLButtonElement>(null);
     const searchDialogTriggerRef = useRef<HTMLButtonElement>(null);
 
-    const [themeColor, setThemeColor] = useState<string>("bg-white text-black");
-
     const [listByTime, setListByTime] = useState<List>(chooseListByTime(response.list));
+
+    const [displayName, setDisplayName] = useState<string>("");
+    const { themeStyle } = useSelector((state: RootState) => state.theme);
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const currentList = chooseListByTime(response.list);
         setListByTime(currentList);
-    
+
+        setDisplayName(response.city.name + "," + response.city.country)
+
         if (currentList.sys.pod) {
-            setThemeColor(currentList.sys.pod === "d" ? "bg-white text-black" : "bg-gray-800 text-white");
+            dispatch(currentList.sys.pod === "d" ? setLighTheme() : setDarkTheme());
         }
-        
+
         const interval = setInterval(() => {
             setListByTime(chooseListByTime(response.list));
         }, 60000);
-        
+
         return () => clearInterval(interval);
     }, [response]);
 
@@ -56,7 +64,7 @@ const SlideSection = ({ response, changeLocation }: { response: Response, change
 
     const setCurrentLocation = () => {
         getLocation().then((location) => {
-            changeLocation(location);
+            dispatch(setLocation(location));
         }).catch((error) => {
             console.error("Error retrieving location:", error);
         });
@@ -70,7 +78,7 @@ const SlideSection = ({ response, changeLocation }: { response: Response, change
     }
 
     return (
-        <div className={`${themeColor} basis-1/3 md:rounded-tl-2xl md:rounded-bl-2xl p-5 flex flex-col justify-stretch`}>
+        <div className={`${themeStyle} basis-1/3 md:rounded-tl-2xl md:rounded-bl-2xl p-5 flex flex-col justify-stretch`}>
 
             {/* search bar */}
             <div className='flex items-center md:gap-5 justify-between text-lg'>
@@ -83,25 +91,28 @@ const SlideSection = ({ response, changeLocation }: { response: Response, change
             </div>
 
             {/* current time */}
-            <CurrentTimeWeatherSection list={listByTime} time={currentTime} />
+            <CurrentTimeWeatherSection list={listByTime} time={currentTime} displayName={displayName} />
 
             <div className='rounded-2xl w-full h-[200px] flex items-center justify-center cursor-pointer' onClick={() => dialogTriggerRef?.current?.click()} style={locationDivStyle}>
-                <h1 className='text-center text-white text-xl font-semibold'> {response.city.name}, {response.city.country}</h1>
+                <h1 className='text-center text-white text-xl font-semibold'>{displayName}</h1>
             </div>
 
-            <LocationDialog city={response.city} dialogTriggerRef={dialogTriggerRef as RefObject<HTMLButtonElement>} themeColor={themeColor} />
+            <LocationDialog city={response.city} dialogTriggerRef={dialogTriggerRef as RefObject<HTMLButtonElement>} />
 
-            <LocationSelectDialog themeColor={themeColor} dialogTriggerRef={searchDialogTriggerRef as RefObject<HTMLButtonElement>} changeLocation={changeLocation} />
+            <LocationSelectDialog dialogTriggerRef={searchDialogTriggerRef as RefObject<HTMLButtonElement>} />
 
         </div>
     )
 }
 
-const LocationDialog = ({ city, dialogTriggerRef, themeColor }: { city: City, dialogTriggerRef: RefObject<HTMLButtonElement>, themeColor: string }) => {
+const LocationDialog = ({ city, dialogTriggerRef }: { city: City, dialogTriggerRef: RefObject<HTMLButtonElement> }) => {
+
+    const { themeStyle } = useSelector((state: RootState) => state.theme);
+
     return (
         <Dialog>
             <DialogTrigger ref={dialogTriggerRef} className='hidden'>Open</DialogTrigger>
-            <DialogContent className={`border-none ${themeColor}`}>
+            <DialogContent className={`border-none ${themeStyle}`}>
                 <DialogHeader>
                     <DialogTitle className='text-center'>{city.name} {city.country}</DialogTitle>
                     <DialogDescription>
@@ -116,11 +127,15 @@ const LocationDialog = ({ city, dialogTriggerRef, themeColor }: { city: City, di
     )
 }
 
-const LocationSelectDialog = ({ dialogTriggerRef, themeColor, changeLocation }: { themeColor: string, dialogTriggerRef: RefObject<HTMLButtonElement>, changeLocation: (location: Location) => void }) => {
+const LocationSelectDialog = ({ dialogTriggerRef }: { dialogTriggerRef: RefObject<HTMLButtonElement> }) => {
 
     const [searchText, setSearchText] = useState<string | undefined>();
     const [result, setResult] = useState<LocationDetail[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
+
+    const { themeStyle } = useSelector((state: RootState) => state.theme);
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (searchText) {
@@ -134,14 +149,14 @@ const LocationSelectDialog = ({ dialogTriggerRef, themeColor, changeLocation }: 
     }, [searchText]);
 
     const handleSelectLocation = (location: Location) => {
-        changeLocation(location);
+        dispatch(setLocation(location));
         dialogTriggerRef?.current?.click();
     }
 
     return (
         <Dialog>
             <DialogTrigger ref={dialogTriggerRef} className='hidden'>Open</DialogTrigger>
-            <DialogContent className={`border-none ${themeColor} `}>
+            <DialogContent className={`border-none ${themeStyle} `}>
                 <DialogHeader>
                     <DialogTitle className='text-center'>Search a Place</DialogTitle>
                     <DialogDescription>

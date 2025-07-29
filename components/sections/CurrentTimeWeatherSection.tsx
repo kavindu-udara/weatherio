@@ -1,15 +1,65 @@
 import { convertToCelsius } from '@/lib/temp'
 import weatherIconMapping from '@/lib/weatherIconMapping'
-import { List } from '@/types'
+import { List, Location } from '@/types'
+
 import Image from 'next/image'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { Button } from '../ui/button'
+import axios from 'axios'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '@/store'
+import { getSessionCurrentUser } from '@/lib/session'
+import { useRouter } from 'next/navigation'
+import toast from 'react-hot-toast'
+import { setFavorites } from '@/store/favoritesSlice'
 
 interface Props {
     list: List,
-    time: Date
+    time: Date,
+    displayName: string
 }
 
-const CurrentTimeWeatherSection = ({ list, time }: Props) => {
+type UserType = {
+    firstName: string,
+    lastName: string,
+    id: string
+}
+
+const CurrentTimeWeatherSection = ({ list, time, displayName }: Props) => {
+
+    const { location } = useSelector((state: RootState) => state.location);
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        fetchFavorites();
+    }, []);
+
+    const handleAddToFavo = () => {
+        if (list && time && location && displayName) {
+            axios.post("/api/favorite", {
+                name: displayName,
+                lat: location.latitude,
+                long: location.longitude
+            }).then(response => {
+                toast.success(response.data.message);
+                if (response.status == 200 || response.status == 201) {
+                    fetchFavorites();
+                }
+            }).catch(err => {
+                toast.error(err.response.data.message);
+            });
+        }
+    }
+
+    const fetchFavorites = () => {
+        axios.get("/api/favorite").then(response => {
+            dispatch(setFavorites(response.data.favorites))
+        }).catch(err => {
+            console.log(err);
+        })
+    }
+
     return (
         <div className='flex justify-center flex-col gap-5 h-full'>
             <div className='flex justify-center items-center'>
@@ -35,6 +85,9 @@ const CurrentTimeWeatherSection = ({ list, time }: Props) => {
             <ul className='text-lg'>
                 <li>{list.weather[0].main} : <span className='text-gray-600'>{list.weather[0].description}</span></li>
             </ul>
+            <div className='flex justify-center'>
+                <Button onClick={() => handleAddToFavo()}>Add to favorite</Button>
+            </div>
         </div>
     )
 }

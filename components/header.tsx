@@ -1,22 +1,45 @@
-import React from 'react'
-import { FaCloudSun } from "react-icons/fa";
-import { FaLocationCrosshairs } from "react-icons/fa6";
+import React, { useRef } from 'react'
+import {
+  SignInButton,
+  SignUpButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from '@clerk/nextjs'
 import { Button } from './ui/button';
-import { Input } from "@/components/ui/input"
+import { MdOutlineFavorite } from "react-icons/md";
+import FavoritesDialog from './dialog/FavoritesDialog';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store';
 
 const Header = () => {
+
+  const favoDialogTriggerBtnRef = useRef<HTMLButtonElement>(null);
+
+    const { themeStyle } = useSelector((state: RootState) => state.theme);
+
   return (
-    <header className='grid gap-5 md:gap-0 md:grid-cols-4 px-10 py-3 blur-bg'>
-        <div className='text-5xl flex justify-center'>
-            <FaCloudSun className='cursor-pointer' />
+    <div className={`w-full flex justify-center py-5 border-b ${themeStyle}`}>
+      <div className="container flex items-center justify-between">
+        <div className='flex items-center'>
+          <MdOutlineFavorite size={35} onClick={() => favoDialogTriggerBtnRef.current?.click()} />
+          <FavoritesDialog triggerRef={favoDialogTriggerBtnRef}/>
         </div>
-        <div className='md:col-span-2'>
-            <Input/>
+        <div className="flex items-center gap-5">
+          <SignedOut>
+            <SignInButton />
+            <SignUpButton>
+              <Button className="cursor-pointer ">
+                Sign Up
+              </Button>
+            </SignUpButton>
+          </SignedOut>
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
         </div>
-        <div className='text-center md:text-end'>
-            <Button> <FaLocationCrosshairs/> Current Location</Button>
-        </div>
-    </header>
+      </div>
+    </div>
   )
 }
 
