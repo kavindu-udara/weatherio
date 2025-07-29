@@ -11,7 +11,7 @@ export async function GET(request: Request) {
     try {
         const user = await getSessionCurrentUser();
         loggedUser = user;
-    } catch (err : any) {
+    } catch (err: any) {
         return NextResponse.json({ error: err.message }, { status: 500 });
     }
 
@@ -78,4 +78,47 @@ export async function POST(request: Request) {
     }
 
 
+}
+
+export async function DELETE(request: Request) {
+    const { searchParams } = new URL(request.url);
+    const rowId = searchParams.get("rowId");
+
+    if (!rowId) {
+        return NextResponse.json({ error: "rowId is required" }, { status: 400 });
+    }
+
+    let loggedUser;
+    try {
+        const user = await getSessionCurrentUser();
+        loggedUser = user;
+    } catch (err: any) {
+        return NextResponse.json({ message: err.message }, { status: 401 });
+    }
+
+    if (!loggedUser) {
+        return NextResponse.json({ message: "Unauthorized" }, { status: 403 });
+    }
+
+    await dbConnect();
+
+    try {
+        const favorite = await Favorite.findById(rowId);
+
+        if (!favorite) {
+            return NextResponse.json({ error: "Favorite not found" }, { status: 404 });
+        }
+
+        if (favorite.userId !== loggedUser.id) {
+            return NextResponse.json({ error: "You are not allowed to delete this favorite" }, { status: 403 });
+        }
+
+        await Favorite.findByIdAndDelete(rowId);
+
+        return NextResponse.json({ message: "Favorite deleted successfully" }, { status: 200 });
+
+    } catch (error) {
+        console.error("Error deleting favorite:", error);
+        return NextResponse.json({ message: "Error while deleting favorite" }, { status: 500 });
+    }
 }
