@@ -25,6 +25,9 @@ const Header = () => {
           <MdOutlineFavorite size={35} onClick={() => favoDialogTriggerBtnRef.current?.click()} />
           <FavoritesDialog triggerRef={favoDialogTriggerBtnRef}/>
         </div>
+        <div className='font-semibold text-2xl'>
+          WeatherIO
+        </div>
         <div className="flex items-center gap-5">
           <SignedOut>
             <SignInButton />
