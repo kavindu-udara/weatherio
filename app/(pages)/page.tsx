@@ -18,10 +18,18 @@ export default function Home() {
 
   const dispatch = useDispatch();
 
+// 
+lat
+: 
+7.2143
+lon
+: 
+80.6401
+  
   useEffect(() => {
     dispatch(setLocation({
-      latitude: 40.730610,
-      longitude: -73.935242
+      latitude: 7.2143,
+      longitude: 80.6401
     }));
   }, []);
 

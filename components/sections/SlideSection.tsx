@@ -63,11 +63,15 @@ const SlideSection = ({ response }: { response: Response }) => {
     }, []);
 
     const setCurrentLocation = () => {
-        getLocation().then((location) => {
-            dispatch(setLocation(location));
-        }).catch((error) => {
-            console.error("Error retrieving location:", error);
-        });
+        // getLocation().then((location) => {
+
+        // }).catch((error) => {
+        //     console.error("Error retrieving location:", error);
+        // });
+        dispatch(setLocation({
+            latitude: 7.2143,
+            longitude: 80.6401
+        }));
     }
 
     const locationDivStyle = {
