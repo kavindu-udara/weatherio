@@ -17,14 +17,6 @@ export default function Home() {
   const { location } = useSelector((state: RootState) => state.location);
 
   const dispatch = useDispatch();
-
-// 
-lat
-: 
-7.2143
-lon
-: 
-80.6401
   
   useEffect(() => {
     dispatch(setLocation({
